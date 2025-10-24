@@ -4,16 +4,12 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-# Initialize the client with your OpenAI API key (stored in .env or system env vars)
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def classify_email(email_text: str) -> str:
-    """
-    Classify an email into spam, promotional, or important (business/personal).
-    Returns one of: 'spam', 'promotional', 'important-business', 'important-personal'
-    """
 
-    # Step 1: Ask the LLM to classify the email into spam, promotional, or important
+  
     first_prompt = f"""
     You are an email classification model.
     Classify the following email text into one of these classes:
@@ -35,7 +31,7 @@ def classify_email(email_text: str) -> str:
 
     first_class = first_response.choices[0].message.content.strip().lower()
 
-    # Step 2: If it's important, further classify it as business or personal
+
     if first_class == "important":
         second_prompt = f"""
         The email below is classified as important.
@@ -59,12 +55,12 @@ def classify_email(email_text: str) -> str:
 
         return f"important-{second_class}"
 
-    # Otherwise, just return the first classification
+
     return first_class
 
 
 if __name__ == "__main__":
-    # Example usage
+
 
 
     email_text = input("Enter email text to classify:\n")
